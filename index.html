@@ -496,13 +496,17 @@
                     message = 'Location access denied by user';
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    message = 'Location information unavailable';
+                    message = 'Location information unavailable - geolocation may be blocked in local files';
                     break;
                 case error.TIMEOUT:
-                    message = 'Location request timed out';
+                    message = 'Location request timed out - retrying...';
+                    // Retry after timeout
+                    setTimeout(() => {
+                        getLocation();
+                    }, 2000);
                     break;
             }
-            document.getElementById('tracker-display').innerHTML = `<p>${message}</p>`;
+            document.getElementById('tracker-display').innerHTML = `<p>${message}</p><button onclick="getLocation()" style="margin-top: 10px; padding: 5px 10px; background: #440000; color: #ffffff; border: none; cursor: pointer;">Retry Location</button>`;
         }
 
         // Get location on page load
