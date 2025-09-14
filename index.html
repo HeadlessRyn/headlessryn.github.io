@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>there's no secrets.</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Special+Elite&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">you can go home.</h1>
+        </header>
+        <main>
+            <section class="content">
+                <div class="system-log">
+                    <p class="log-entry">[23:47:13] System intrusion detected</p>
+                    <p class="log-entry">[23:47:14] Surveillance protocols activated</p>
+                    <p class="log-entry">[23:47:15] Subject location: <span class="highlight">TRACKING</span></p>
+                    <p class="log-entry">[23:47:16] Neural link established</p>
+                    <p class="log-entry">[23:47:17] <span class="error">ERROR: Privacy breach detected</span></p>
+                    <p class="log-entry">[23:47:18] Status: <span class="warning">MONITORED</span></p>
+                    <p class="log-entry">[23:47:19] <span class="error">CRITICAL: </span><span class="critical" id="critical-text">Subject aware</span></p>
+                </div>
+                <div class="warning">
+                    <p>privacy compromised, don't speak.</p>
+                </div>
+                <p class="stalked-text">
+                    Every click, every scroll... I know.
+                </p>
+            </section>
+            <section class="gallery">
+                <div class="image-placeholder">
+                    <p>[Corrupted Image Data]</p>
+                    <div class="static"></div>
+                </div>
+            </section>
+            <section class="surveillance-feed">
+                <h2>Live Surveillance</h2>
+                <div class="feed-container">
+                    <div class="camera cam1">
+                        <div class="camera-overlay"></div>
+                        <p>Camera 1: [NO SIGNAL]</p>
+                    </div>
+                    <div class="camera cam2">
+                        <div class="camera-overlay"></div>
+                        <p>Camera 2: [INTERFERENCE]</p>
+                    </div>
+                    <div class="camera cam3">
+                        <div class="camera-overlay"></div>
+                        <p>Camera 3: [CORRUPTED]</p>
+                    </div>
+                </div>
+            </section>
+            <section class="chat-log">
+                <h2>System Communications</h2>
+                <div class="chat-container" id="chat-container">
+                    <div class="chat-entry">[23:47:20] SYSTEM: Connection established</div>
+                    <div class="chat-entry">[23:47:21] UNKNOWN: Who is this?</div>
+                    <div class="chat-entry">[23:47:22] SYSTEM: That doesn't matter</div>
+                </div>
+            </section>
+            <section class="location-tracker">
+                <h2>Location Status</h2>
+                <div class="tracker-display" id="tracker-display">
+                    <p>Acquiring coordinates...</p>
+                </div>
+            </section>
+            <section class="keylogger-panel" id="keylogger-panel" style="display: none;">
+                <h3>Keystroke Log</h3>
+                <div class="log-display" id="keystroke-log"></div>
+            </section>
+        </main>
+        <footer>
+            <p class="footer-text">Lost in the digital abyss... forever</p>
+        </footer>
+    </div>
+    <div class="eye eye1"></div>
+    <div class="eye eye2"></div>
+    <div class="eye eye3"></div>
+    <div class="eye eye4"></div>
+    <div class="eye eye5"></div>
+    <div class="eye eye6"></div>
+    <div class="eye eye7"></div>
+    <div class="eye eye8"></div>
+    <div id="tracking-eye">
+        <div class="pupil"></div>
+    </div>
+    <div id="creepy-message"></div>
+    <div id="red-overlay"></div>
+    <script>
+        // Prevent right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Detect F12 and other dev tool shortcuts
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+                triggerMystery();
+            }
+            // Ctrl+Shift+I
+            else if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                triggerMystery();
+            }
+            // Ctrl+Shift+J
+            else if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                triggerMystery();
+            }
+            // Ctrl+Shift+C
+            else if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                triggerMystery();
+            }
+            // Ctrl+U (view source)
+            else if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                triggerMystery();
+            }
+        });
+
+        function triggerMystery() {
+            // Replace content with mystery message
+            document.body.innerHTML = '<div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #440000; font-size: 3em; text-align: center; font-family: \'Nosifer\', cursive; text-shadow: 0 0 20px #440000;">You shouldn\'t have peeked...</div>';
+            // Clear after 3 seconds
+            setTimeout(function() {
+                document.body.innerHTML = '<div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000; font-size: 2em;">...</div>';
+                setTimeout(function() {
+                    document.body.innerHTML = '';
+                }, 1000);
+            }, 3000);
+        }
+
+        // Tracking eye functionality
+        const trackingEye = document.getElementById('tracking-eye');
+        const pupil = trackingEye.querySelector('.pupil');
+        let isFlashing = false;
+
+        document.addEventListener('mousemove', (e) => {
+            const eyeRect = trackingEye.getBoundingClientRect();
+            const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+            const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            const deltaX = mouseX - eyeCenterX;
+            const deltaY = mouseY - eyeCenterY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            // Flashing when close
+            if (distance < 100 && !isFlashing) {
+                trackingEye.style.animation = 'flash 0.5s infinite alternate';
+                isFlashing = true;
+            } else if (distance >= 100 && isFlashing) {
+                trackingEye.style.animation = 'none';
+                trackingEye.style.opacity = '0.8';
+                isFlashing = false;
+            }
+
+            const maxDistance = 12.5; // eye radius 20 - pupil radius 7.5
+            const clampedDistance = Math.min(maxDistance, distance);
+
+            const angle = Math.atan2(deltaY, deltaX);
+            const pupilX = Math.cos(angle) * clampedDistance;
+            const pupilY = Math.sin(angle) * clampedDistance;
+
+            pupil.style.transform = `translate(-50%, -50%) translate(${pupilX}px, ${pupilY}px)`;
+        });
+
+        // Disappear on hover
+        trackingEye.addEventListener('mouseenter', () => {
+            trackingEye.style.opacity = '0';
+        });
+
+        trackingEye.addEventListener('mouseleave', () => {
+            trackingEye.style.opacity = '0.8';
+        });
+
+        // Creepy message
+        const creepyMessages = [
+            "They're watching...",
+            "You can't escape...",
+            "Run while you can...",
+            "The eyes are everywhere...",
+            "Don't look away...",
+            "It's too late..."
+        ];
+
+        function showCreepyMessage() {
+            const message = creepyMessages[Math.floor(Math.random() * creepyMessages.length)];
+            const creepyDiv = document.getElementById('creepy-message');
+            creepyDiv.textContent = message;
+            creepyDiv.style.display = 'block';
+            setTimeout(() => {
+                creepyDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Show random creepy message every 10-20 seconds
+        setInterval(() => {
+            if (Math.random() < 0.3) { // 30% chance
+                showCreepyMessage();
+            }
+        }, 10000 + Math.random() * 10000);
+
+        // Red overlay pulse
+        function pulseRedOverlay() {
+            const overlay = document.getElementById('red-overlay');
+            overlay.style.animation = 'redPulse 0.5s ease-in-out';
+            setTimeout(() => {
+                overlay.style.animation = 'none';
+            }, 500);
+        }
+
+        // Pulse occasionally
+        setInterval(() => {
+            if (Math.random() < 0.1) { // 10% chance
+                pulseRedOverlay();
+            }
+        }, 5000 + Math.random() * 10000);
+
+        // Scramble critical text
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?`~üéâäàåçêëèïîìæôöòûùÿýžźñçćčđđęęłłńńőőřřśśşşššťťźźżżžž⛧☣︎𖤝𖤐⸸⏾⏾⏾⏾⏾⏾⏾⏾⏾⏾⏾愛𐕣✃⚚𓂀';
+        const criticalElement = document.getElementById('critical-text');
+        const originalCriticalText = criticalElement.textContent;
+
+        function scrambleCriticalText() {
+            if (criticalElement) {
+                // Scramble the span
+                let scrambled = '';
+                for (let i = 0; i < originalCriticalText.length; i++) {
+                    scrambled += chars[Math.floor(Math.random() * chars.length)];
+                }
+                criticalElement.textContent = scrambled;
+            } else {
+                // Span destroyed by typing, scramble the p textContent
+                const criticalP = document.querySelector('.log-entry:nth-child(7)');
+                if (criticalP && criticalP.textContent.startsWith('[23:47:19] ')) {
+                    const prefix = '[23:47:19] ';
+                    const criticalPart = 'CRITICAL: Subject aware';
+                    let scrambled = '';
+                    for (let i = 0; i < criticalPart.length; i++) {
+                        scrambled += chars[Math.floor(Math.random() * chars.length)];
+                    }
+                    criticalP.textContent = prefix + scrambled;
+                }
+            }
+        }
+
+        setInterval(scrambleCriticalText, 50); // change every 50ms
+
+        // Audio Effects
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let backgroundAudio, triggerAudio;
+
+        function createBackgroundAudio() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime);
+            oscillator.start();
+            return { oscillator, gainNode };
+        }
+
+        function createTriggerAudio() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.type = 'sawtooth';
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        // Initialize background audio
+        if (audioContext.state === 'suspended') {
+            document.addEventListener('click', () => {
+                audioContext.resume().then(() => {
+                    backgroundAudio = createBackgroundAudio();
+                });
+            });
+        } else {
+            backgroundAudio = createBackgroundAudio();
+        }
+
+        // Cursor Tracking
+        let trailElements = [];
+        const maxTrail = 20;
+
+        document.addEventListener('mousemove', (e) => {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            document.body.appendChild(trail);
+
+            trailElements.push(trail);
+
+            if (trailElements.length > maxTrail) {
+                const oldTrail = trailElements.shift();
+                if (oldTrail.parentNode) {
+                    oldTrail.parentNode.removeChild(oldTrail);
+                }
+            }
+
+            setTimeout(() => {
+                if (trail.parentNode) {
+                    trail.parentNode.removeChild(trail);
+                }
+            }, 1000);
+        });
+
+        // Typing Effect for Log Entries
+        function typeText(element, text, speed = 50) {
+            let i = 0;
+            let currentText = '';
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?`~üéâäàåçêëèïîìæôöòûùÿýžźñçćčđđęęłłńńőőřřśśşşššťťźźżżžž⛧☣︎𖤝𖤐⸸⏾⏾⏾⏾⏾⏾⏾⏾⏾⏾⏾愛𐕣✃⚚𓂀';
+            element.classList.add('typing');
+
+            // Phase 1: Type random characters
+            const randomTimer = setInterval(() => {
+                currentText = '';
+                for (let j = 0; j <= i; j++) {
+                    currentText += chars[Math.floor(Math.random() * chars.length)];
+                }
+                element.textContent = currentText;
+                i++;
+                if (i >= text.length) {
+                    clearInterval(randomTimer);
+                    // Phase 2: Reveal actual text
+                    let revealIndex = 0;
+                    const revealTimer = setInterval(() => {
+                        currentText = text.slice(0, revealIndex + 1);
+                        for (let j = revealIndex + 1; j < text.length; j++) {
+                            currentText += chars[Math.floor(Math.random() * chars.length)];
+                        }
+                        element.textContent = currentText;
+                        revealIndex++;
+                        if (revealIndex >= text.length) {
+                            clearInterval(revealTimer);
+                            element.textContent = text;
+                            element.classList.remove('typing');
+                        }
+                    }, speed);
+                }
+            }, speed / 2); // Faster for random phase
+        }
+
+        // Log entries appear instantly (no typing animation)
+
+        // Glitch Effects
+        function triggerGlitch() {
+            const overlay = document.createElement('div');
+            overlay.className = 'glitch-overlay';
+            document.body.appendChild(overlay);
+            overlay.style.display = 'block';
+            setTimeout(() => {
+                document.body.removeChild(overlay);
+            }, 300);
+        }
+
+        // Trigger glitch randomly
+        setInterval(() => {
+            if (Math.random() < 0.05) { // 5% chance
+                triggerGlitch();
+            }
+        }, 5000);
+
+        // Fake Screen Recording Warning
+        function showScreenRecordingWarning() {
+            const warning = document.createElement('div');
+            warning.className = 'screen-recording-warning';
+            warning.innerHTML = `
+                <h3>SCREEN RECORDING DETECTED</h3>
+                <p>Your screen is being recorded for security purposes.</p>
+                <p>Do not attempt to stop this process.</p>
+            `;
+            document.body.appendChild(warning);
+            warning.style.display = 'block';
+            setTimeout(() => {
+                document.body.removeChild(warning);
+            }, 5000);
+        }
+
+        // Show warning occasionally
+        setInterval(() => {
+            if (Math.random() < 0.03) { // 3% chance
+                showScreenRecordingWarning();
+            }
+        }, 15000);
+
+        // Particle Effects
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            document.body.appendChild(particle);
+
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 2 + 1;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity;
+
+            let posX = x;
+            let posY = y;
+            let life = 100;
+
+            const animate = () => {
+                posX += vx;
+                posY += vy;
+                life--;
+
+                particle.style.left = posX + 'px';
+                particle.style.top = posY + 'px';
+                particle.style.opacity = life / 100;
+
+                if (life > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    document.body.removeChild(particle);
+                }
+            };
+
+            animate();
+        }
+
+        // Create particles on mouse move
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() < 0.1) { // 10% chance
+                createParticle(e.clientX, e.clientY);
+            }
+        });
+
+        // Dynamic Background
+        let backgroundShift = 0;
+        function updateBackground() {
+            backgroundShift += 0.5;
+            const hue = (backgroundShift % 360);
+            document.body.style.background = `linear-gradient(135deg, hsl(${hue}, 10%, 0%) 0%, hsl(${hue + 30}, 15%, 5%) 30%, hsl(${hue + 60}, 20%, 10%) 70%, hsl(${hue}, 10%, 0%) 100%)`;
+        }
+
+        setInterval(updateBackground, 100);
+
+        // Progressive Revelation
+        let revelationLevel = 0;
+        const revelations = [
+            () => { document.getElementById('keylogger-panel').style.display = 'block'; },
+            () => { showScreenRecordingWarning(); },
+            () => { triggerGlitch(); },
+            () => { pulseRedOverlay(); }
+        ];
+
+        setInterval(() => {
+            if (revelationLevel < revelations.length) {
+                revelations[revelationLevel]();
+                revelationLevel++;
+            }
+        }, 30000); // Every 30 seconds
+
+        // Location Tracker
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById('tracker-display').innerHTML = '<p>Geolocation not supported</p>';
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude.toFixed(4);
+            const lon = position.coords.longitude.toFixed(4);
+            document.getElementById('tracker-display').innerHTML = `
+                <p>Latitude: ${lat}</p>
+                <p>Longitude: ${lon}</p>
+                <p>Accuracy: ${position.coords.accuracy.toFixed(0)} meters</p>
+            `;
+        }
+
+        function showError(error) {
+            let message = 'Location access denied';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = 'Location access denied by user';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = 'Location information unavailable';
+                    break;
+                case error.TIMEOUT:
+                    message = 'Location request timed out';
+                    break;
+            }
+            document.getElementById('tracker-display').innerHTML = `<p>${message}</p>`;
+        }
+
+        // Get location on page load
+        getLocation();
+
+        // Keylogger Simulation
+        let keystrokeLog = [];
+        const maxLogEntries = 50;
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.length === 1 ? e.key : `[${e.key.toUpperCase()}]`;
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = `${timestamp}: ${key}`;
+            keystrokeLog.push(entry);
+
+            if (keystrokeLog.length > maxLogEntries) {
+                keystrokeLog.shift();
+            }
+
+            updateKeystrokeDisplay();
+        });
+
+        function updateKeystrokeDisplay() {
+            const logDisplay = document.getElementById('keystroke-log');
+            logDisplay.innerHTML = keystrokeLog.map(entry => `<div>${entry}</div>`).join('');
+            logDisplay.scrollTop = logDisplay.scrollHeight;
+        }
+
+        // Chat Log Updates
+        const chatMessages = [
+            "[23:47:23] SYSTEM: Identity confirmed",
+            "[23:47:24] UNKNOWN: What do you want?",
+            "[23:47:25] SYSTEM: Everything",
+            "[23:47:26] UNKNOWN: Please stop",
+            "[23:47:27] SYSTEM: Too late",
+            "[23:47:28] UNKNOWN: I'm scared",
+            "[23:47:29] SYSTEM: Good"
+        ];
+
+        let chatIndex = 0;
+        setInterval(() => {
+            if (chatIndex < chatMessages.length) {
+                const chatContainer = document.getElementById('chat-container');
+                const newEntry = document.createElement('div');
+                newEntry.className = 'chat-entry';
+                newEntry.textContent = chatMessages[chatIndex];
+                chatContainer.appendChild(newEntry);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                chatIndex++;
+            }
+        }, 5000); // Add new message every 5 seconds
+
+        // Trigger audio on interactions
+        document.addEventListener('click', () => {
+            if (audioContext.state === 'running') {
+                createTriggerAudio();
+            }
+        });
+
+        document.addEventListener('keydown', () => {
+            if (audioContext.state === 'running') {
+                createTriggerAudio();
+            }
+        });
+    </script>
+</body>
+</html>
