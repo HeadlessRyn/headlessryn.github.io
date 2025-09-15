@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriftyXII's Collective - Music Artists</title>
+    <meta name="description" content="DriftyXII's Collective - A collective of music artists managed by HeadlessRyn">
+    <link rel="icon" type="image/png" href="../../icon.png">
+    <link rel="stylesheet" href="trauma.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../ryn.html" class="nav-link">
+                    <h2>← Back to HeadlessRyn</h2>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#collective">The Collective</a></li>
+                <li><a href="#artists">Artists</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="collective" class="hero">
+            <div class="hero-content">
+                <h1 class="title">DriftyXII's Collective</h1>
+                <p class="subtitle">• A Family of Digital Music Artists •</p>
+                <div class="hero-description">
+                    <p>Welcome to the collective. Here you'll find all the artists I manage and collaborate with in the digital music space.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="artists" class="artists-section">
+            <h2 class="section-title">The Gang</h2>
+            <div class="artists-grid" id="artistsGrid">
+                <!-- Artists will be dynamically added here -->
+                <div class="artist-card" data-artist="headlessryn">
+                    <div class="artist-avatar">
+                        <div class="glitch-avatar">RYN</div>
+                    </div>
+                    <h3>HeadlessRyn</h3>
+                    <p class="artist-genre">Traumacore • BlownEars</p>
+                    <p class="artist-description">The founder and manager of DriftyXII's Collective. Creating music that most would yell at you "turn it off!"</p>
+                    </div>
+                </div>
+                <br>
+                <div class="artist-card" data-artist="artistname">
+                    <div class="artist-avatar">
+                        <div class="glitch-avatar">ARTIST</div>
+                    </div>
+                    <h3>DriftyXII</h3>
+                    <p class="artist-genre">Everything • Anything</p>
+                    <p class="artist-description">Coming straight to you with entirely different genres, Drifty was what started it all. Name coming from "drifting off" as if you're tired, and XII meaning 12.</p>
+                    <div class="artist-links">
+                        <a href="twitter.com/@voidstarxii" class="stream-link">Twitter</a>
+                        <a href="#" class="stream-link">Platform 2</a>
+                        <a href="#" class="stream-link">Platform 3</a>
+                    </div>
+                </div>
+                <br>
+                <div class="artist-card" data-artist="artistname">
+                    <div class="artist-avatar">
+                        <div class="glitch-avatar">ARTIST</div>
+                    </div>
+                    <h3>Artist Name</h3>
+                    <p class="artist-genre">Genre • Subgenre</p>
+                    <p class="artist-description">Artist description goes here.</p>
+                    <div class="artist-links">
+                        <a href="#" class="stream-link">Platform 1</a>
+                        <a href="#" class="stream-link">Platform 2</a>
+                        <a href="#" class="stream-link">Platform 3</a>
+                    </div>
+                </div>
+                <br>
+                <!-- Template for new artists - copy this structure -->
+                <!--
+                <div class="artist-card" data-artist="artistname">
+                    <div class="artist-avatar">
+                        <div class="glitch-avatar">ARTIST</div>
+                    </div>
+                    <h3>Artist Name</h3>
+                    <p class="artist-genre">Genre • Subgenre</p>
+                    <p class="artist-description">Artist description goes here.</p>
+                    <div class="artist-links">
+                        <a href="#" class="stream-link">Platform 1</a>
+                        <a href="#" class="stream-link">Platform 2</a>
+                        <a href="#" class="stream-link">Platform 3</a>
+                    </div>
+                </div>
+                <br>
+                -->
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 DriftyXII's Collective. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../../ryn.html">Back to Main</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dynamic artist loading system
+        class ArtistManager {
+            constructor() {
+                this.artistsGrid = document.getElementById('artistsGrid');
+                this.loadArtists();
+            }
+
+            loadArtists() {
+                // This function can be expanded to load artists from a JSON file or API
+                // For now, it just ensures the existing artists are properly initialized
+                console.log('DriftyXII\'s Collective loaded with', this.getArtistCount(), 'artists');
+            }
+
+            getArtistCount() {
+                return document.querySelectorAll('.artist-card').length;
+            }
+
+            // Function to dynamically add new artists
+            addArtist(artistData) {
+                const artistCard = document.createElement('div');
+                artistCard.className = 'artist-card';
+                artistCard.setAttribute('data-artist', artistData.name.toLowerCase().replace(/\s+/g, ''));
+
+                artistCard.innerHTML = `
+                    <div class="artist-avatar">
+                        <div class="glitch-avatar">${artistData.initials || artistData.name.substring(0, 4).toUpperCase()}</div>
+                    </div>
+                    <h3>${artistData.name}</h3>
+                    <p class="artist-genre">${artistData.genre}</p>
+                    <p class="artist-description">${artistData.description}</p>
+                    <div class="artist-links">
+                        ${artistData.links.map(link => `<a href="${link.url}" class="stream-link">${link.platform}</a>`).join('')}
+                    </div>
+                `;
+
+                this.artistsGrid.appendChild(artistCard);
+            }
+        }
+
+        // Initialize the artist manager when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ArtistManager();
+        });
+
+        // Example of how to add a new artist dynamically:
+        // const artistManager = new ArtistManager();
+        // artistManager.addArtist({
+        //     name: "New Artist",
+        //     genre: "Genre • Subgenre",
+        //     description: "Artist description",
+        //     links: [
+        //         { platform: "Spotify", url: "#" },
+        //         { platform: "SoundCloud", url: "#" }
+        //     ]
+        // });
+    </script>
+</body>
+</html>
