@@ -12,7 +12,7 @@
     <nav class="nav">
         <div class="nav-container">
             <div class="nav-brand">
-                <a href="../../ryn.html" class="nav-link">
+                <a href="../../index.html" class="nav-link">
                     <h2>← Back to HeadlessRyn</h2>
                 </a>
             </div>
@@ -101,10 +101,237 @@
         <div class="footer-content">
             <p>&copy; 2025 DriftyXII's Collective. All rights reserved.</p>
             <div class="footer-links">
-                <a href="../../ryn.html">Back to Main</a>
+                <a href="../../index.html">Back to Main</a>
             </div>
         </div>
     </footer>
+
+    <script>
+        // DevTools Detection and Nuke System
+        class DevToolsNuke {
+            constructor() {
+                this.devToolsOpen = false;
+                this.nukeTriggered = false;
+                this.initialized = false;
+                this.init();
+            }
+
+            init() {
+                // Delay initialization to prevent false positives on page load
+                setTimeout(() => {
+                    this.initialized = true;
+                    this.setupDetection();
+                }, 2000); // Wait 2 seconds for page to fully load
+            }
+
+            setupDetection() {
+                // Method 1: Keyboard shortcuts detection
+                document.addEventListener('keydown', (e) => {
+                    // Common dev tools shortcuts
+                    if (
+                        (e.key === 'F12') ||
+                        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+                        (e.ctrlKey && e.key === 'u') ||
+                        (e.ctrlKey && e.shiftKey && e.key === 'K') ||
+                        (e.key === 'F1' && e.ctrlKey) ||
+                        (e.altKey && e.key === 'F12')
+                    ) {
+                        e.preventDefault();
+                        this.triggerNuke();
+                    }
+                });
+
+                // Method 2: Right-click detection
+                document.addEventListener('contextmenu', (e) => {
+                    // Allow right-click on links and inputs
+                    if (e.target.tagName === 'A' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        return;
+                    }
+                    e.preventDefault();
+                    this.triggerNuke();
+                });
+
+                // Method 3: Timing-based detection (checks for dev tools performance impact)
+                this.checkDevTools();
+
+                // Method 4: Console override detection
+                this.overrideConsole();
+
+                // Method 5: Window size detection
+                this.checkWindowSize();
+
+                // Method 6: Debugger detection (disabled to prevent false positives)
+                // this.antiDebugger();
+            }
+
+            checkDevTools() {
+                const threshold = 200; // Increased threshold to be more specific
+                let initialCheckDone = false;
+                let initialOuterHeight = window.outerHeight;
+                let initialOuterWidth = window.outerWidth;
+                let initialInnerHeight = window.innerHeight;
+                let initialInnerWidth = window.innerWidth;
+
+                setTimeout(() => {
+                    initialCheckDone = true;
+                }, 3000); // Wait 3 seconds before starting detection
+
+                setInterval(() => {
+                    if (!initialCheckDone) return; // Don't check until initial delay
+
+                    const currentDiffHeight = window.outerHeight - window.innerHeight;
+                    const currentDiffWidth = window.outerWidth - window.innerWidth;
+
+                    // Only trigger if there's a significant change from initial state
+                    if (currentDiffHeight > threshold || currentDiffWidth > threshold) {
+                        if (!this.devToolsOpen) {
+                            this.devToolsOpen = true;
+                            this.triggerNuke();
+                        }
+                    } else {
+                        this.devToolsOpen = false;
+                    }
+                }, 1000); // Check less frequently
+            }
+
+            overrideConsole() {
+                let consoleUsed = false;
+                const originalLog = console.log;
+                console.log = (...args) => {
+                    originalLog.apply(console, args);
+                    if (!consoleUsed) {
+                        consoleUsed = true;
+                        // Only trigger after multiple uses to avoid false positives
+                        setTimeout(() => {
+                            if (consoleUsed) {
+                                this.triggerNuke();
+                            }
+                        }, 3000);
+                    }
+                };
+            }
+
+            checkWindowSize() {
+                let width = window.innerWidth;
+                let height = window.innerHeight;
+                let resizeCount = 0;
+
+                window.addEventListener('resize', () => {
+                    resizeCount++;
+                    // Only trigger after multiple rapid resizes (indicating dev tools)
+                    if (resizeCount > 3 && (Math.abs(window.innerWidth - width) > 300 || Math.abs(window.innerHeight - height) > 300)) {
+                        this.triggerNuke();
+                    }
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+
+                    // Reset counter after delay
+                    setTimeout(() => {
+                        resizeCount = 0;
+                    }, 2000);
+                });
+            }
+
+            // Removed antiDebugger to prevent false positives
+
+            triggerNuke() {
+                if (this.nukeTriggered) return;
+                this.nukeTriggered = true;
+
+                // Nuke the page
+                document.body.innerHTML = '';
+
+                // Create nuke container
+                const nukeContainer = document.createElement('div');
+                nukeContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: black;
+                    z-index: 999999;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                `;
+
+                // Add GIF
+                const gif = document.createElement('img');
+                gif.src = '../../assets/eyespy.gif';
+                gif.style.cssText = `
+                    width: 100vw;
+                    height: 100vh;
+                    object-fit: cover;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 1;
+                    filter: brightness(1.2) contrast(1.5);
+                `;
+
+                // Add flashing text
+                const text = document.createElement('div');
+                text.textContent = 'THAT ISN\'T MEANT FOR YOU';
+                text.style.cssText = `
+                    font-family: 'Orbitron', monospace;
+                    font-size: 3rem;
+                    font-weight: bold;
+                    color: #ff0066;
+                    text-shadow: 0 0 20px #ff0066, 0 0 40px #ff0066;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    z-index: 2;
+                    text-align: center;
+                    animation: flash 0.5s infinite;
+                `;
+
+                // Add flash animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes flash {
+                        0% { opacity: 1; }
+                        50% { opacity: 0; }
+                        100% { opacity: 1; }
+                    }
+                `;
+
+                document.head.appendChild(style);
+                nukeContainer.appendChild(gif);
+                nukeContainer.appendChild(text);
+                document.body.appendChild(nukeContainer);
+
+                // Play sound if available (you can add this)
+                // const audio = new Audio('../assets/nuke-sound.mp3');
+                // audio.play();
+
+                // Prevent any further interactions
+                document.addEventListener('keydown', (e) => e.preventDefault());
+                document.addEventListener('contextmenu', (e) => e.preventDefault());
+                document.addEventListener('click', (e) => e.preventDefault());
+                document.addEventListener('dblclick', (e) => e.preventDefault());
+
+                // Clear console to hide any traces
+                console.clear();
+            }
+        }
+
+        // Initialize the nuke system
+        document.addEventListener('DOMContentLoaded', () => {
+            new DevToolsNuke();
+        });
+
+        // Also initialize immediately in case DOMContentLoaded already fired
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => new DevToolsNuke());
+        } else {
+            new DevToolsNuke();
+        }
+    </script>
 
     <script>
         // Dynamic artist loading system
