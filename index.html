@@ -35,6 +35,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#bio">Bio</a></li>
                 <li><a href="#music">Music</a></li>
+                <li><a href="sub/terminal.html">Terminal</a></li>
             </ul>
         </div>
     </nav>
@@ -355,6 +356,248 @@
             document.addEventListener('DOMContentLoaded', () => new DevToolsNuke());
         } else {
             new DevToolsNuke();
+        }
+
+        // Loading Screen System
+        class LoadingScreen {
+            constructor() {
+                this.loadingScreen = null;
+                this.isLoading = false;
+                this.init();
+            }
+
+            init() {
+                // Create loading screen element
+                this.createLoadingScreen();
+
+                // Add click handlers to loading links
+                document.addEventListener('DOMContentLoaded', () => {
+                    const loadingLinks = document.querySelectorAll('.loading-link');
+                    loadingLinks.forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const href = link.getAttribute('href');
+                            const loadingText = link.getAttribute('data-loading-text') || 'LOADING...';
+                            this.showLoadingScreen(href, loadingText);
+                        });
+                    });
+                });
+            }
+
+            createLoadingScreen() {
+                this.loadingScreen = document.createElement('div');
+                this.loadingScreen.className = 'loading-screen';
+                this.loadingScreen.innerHTML = `
+                    <div class="loading-content">
+                        <div class="loading-header">
+                            <h2 id="loading-title">LOADING...</h2>
+                            <div class="loading-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="loading-progress-fill"></div>
+                                </div>
+                                <p id="loading-status">Initializing decryption sequence...</p>
+                            </div>
+                        </div>
+                        <div class="loading-animation">
+                            <div class="decrypt-text" id="decrypt-text">
+                                █▀▀█ █░░ █▀▀█ █░░█ █▀▀ █▀▀█ █▀▀█ █▀▀█
+                                █░░█ █░░ █▄▄█ █▄▄█ █░░ █░░█ █▄▄▀ █▄▄█
+                                █▀▀▀ ▀▀▀ ▀░░▀ ▄▄▄█ ▀▀▀ ▀▀▀▀ ▀░▀▀ ▀░░▀
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(this.loadingScreen);
+
+                // Add styles
+                const style = document.createElement('style');
+                style.textContent = `
+                    .loading-screen {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: linear-gradient(135deg, #050505 0%, #0f0f0f 50%, #1a1a1a 100%);
+                        z-index: 100000;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        opacity: 0;
+                        pointer-events: none;
+                        transition: opacity 0.3s ease;
+                    }
+
+                    .loading-screen.active {
+                        opacity: 1;
+                        pointer-events: all;
+                    }
+
+                    .loading-content {
+                        text-align: center;
+                        max-width: 600px;
+                        padding: 40px;
+                    }
+
+                    .loading-header h2 {
+                        font-family: 'Orbitron', monospace;
+                        font-size: 2rem;
+                        color: var(--neon-pink);
+                        margin-bottom: 30px;
+                        text-shadow: 0 0 20px var(--neon-pink);
+                    }
+
+                    .loading-progress {
+                        margin-bottom: 40px;
+                    }
+
+                    .progress-bar {
+                        width: 300px;
+                        height: 20px;
+                        background: rgba(255, 255, 255, 0.1);
+                        border-radius: 10px;
+                        overflow: hidden;
+                        margin: 0 auto 10px;
+                    }
+
+                    .progress-fill {
+                        height: 100%;
+                        background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+                        width: 0%;
+                        transition: width 0.3s ease;
+                    }
+
+                    .loading-status {
+                        color: var(--pastel-blue);
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 0.9rem;
+                    }
+
+                    .loading-animation {
+                        margin-top: 40px;
+                    }
+
+                    .decrypt-text {
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 1.2rem;
+                        color: var(--neon-green);
+                        line-height: 1.6;
+                        white-space: pre-wrap;
+                        text-align: center;
+                    }
+
+                    @media (max-width: 768px) {
+                        .loading-content {
+                            padding: 20px;
+                        }
+
+                        .loading-header h2 {
+                            font-size: 1.5rem;
+                        }
+
+                        .progress-bar {
+                            width: 250px;
+                        }
+
+                        .decrypt-text {
+                            font-size: 1rem;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            showLoadingScreen(targetUrl, loadingText) {
+                if (this.isLoading) return;
+                this.isLoading = true;
+
+                // Update loading text
+                document.getElementById('loading-title').textContent = loadingText;
+
+                // Show loading screen
+                this.loadingScreen.classList.add('active');
+
+                // Start decryption animation
+                this.startDecryptionAnimation(targetUrl);
+            }
+
+            startDecryptionAnimation(targetUrl) {
+                const progressFill = document.getElementById('loading-progress-fill');
+                const loadingStatus = document.getElementById('loading-status');
+                const decryptText = document.getElementById('decrypt-text');
+
+                const statuses = [
+                    'Initializing decryption sequence...',
+                    'Establishing secure connection...',
+                    'Verifying access credentials...',
+                    'Decrypting data packets...',
+                    'Loading encrypted content...',
+                    'Finalizing security protocols...',
+                    'Access granted. Redirecting...'
+                ];
+
+                const encryptedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?`~üéâäàåçêëèïîìæôöòûùÿýžźñçćčđđęęłłńńőőřřśśşşššťťźźżżžž⛧☣︎𖤝𖤐⸸⏾';
+                const originalText = `ACCESS GRANTED
+TARGET: ${targetUrl.toUpperCase()}
+STATUS: SECURE CONNECTION ESTABLISHED`;
+
+                let progress = 0;
+                let statusIndex = 0;
+                let decryptProgress = 0;
+
+                const animationInterval = setInterval(() => {
+                    // Update progress bar
+                    progress += Math.random() * 8 + 2;
+                    if (progress > 100) progress = 100;
+                    progressFill.style.width = progress + '%';
+
+                    // Update status text
+                    if (progress > (statusIndex + 1) * (100 / statuses.length)) {
+                        statusIndex = Math.min(statusIndex + 1, statuses.length - 1);
+                        loadingStatus.textContent = statuses[statusIndex];
+                    }
+
+                    // Update decryption text
+                    if (progress > 20) {
+                        decryptProgress += 0.02;
+                        if (decryptProgress > 1) decryptProgress = 1;
+
+                        const lines = originalText.split('\n');
+                        const decryptedLines = lines.map(line => {
+                            return line.split('').map((char, index) => {
+                                const charProgress = index / line.length;
+                                if (charProgress <= decryptProgress) {
+                                    return char;
+                                } else {
+                                    return encryptedChars[Math.floor(Math.random() * encryptedChars.length)];
+                                }
+                            }).join('');
+                        });
+
+                        decryptText.textContent = decryptedLines.join('\n');
+                    }
+
+                    // Check if loading is complete
+                    if (progress >= 100) {
+                        clearInterval(animationInterval);
+                        setTimeout(() => {
+                            window.location.href = targetUrl;
+                        }, 500);
+                    }
+                }, 50);
+            }
+        }
+
+        // Initialize loading screen
+        document.addEventListener('DOMContentLoaded', () => {
+            new LoadingScreen();
+        });
+
+        // Also initialize immediately in case DOMContentLoaded already fired
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => new LoadingScreen());
+        } else {
+            new LoadingScreen();
         }
     </script>
 </body>

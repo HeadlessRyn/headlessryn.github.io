@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Terminal - HeadlessRyn</title>
+    <meta name="description" content="Unauthorized access detected. System breach in progress.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../icon.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../headless.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>TERMINAL</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="gang.html">Collective</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="terminal-header">
+            <h1 class="title">TERMINAL</h1>
+            <p class="subtitle">System Access: UNAUTHORIZED - Connection Established</p>
+        </section>
+
+        <section class="terminal-content">
+            <div class="terminal-window">
+                <div class="terminal-header-bar">
+                    <div class="terminal-buttons">
+                        <span class="terminal-button close"></span>
+                        <span class="terminal-button minimize"></span>
+                        <span class="terminal-button maximize"></span>
+                    </div>
+                    <div class="terminal-title">HeadlessRyn Terminal - root@collective</div>
+                </div>
+
+                <div class="terminal-body" id="terminal-body" tabindex="0">
+                    <div class="terminal-output">
+                        <p><span class="terminal-prompt">root@headlessryn login:</span> <span id="current-input"></span><span class="cursor">_</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="terminal-info">
+                <div class="aero-panel">
+                    <h3>System Status</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <span class="status-label">Neural Link:</span>
+                            <span class="status-value" id="neural-status">ACTIVE</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Encryption:</span>
+                            <span class="status-value" id="encryption-status">QUANTUM</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Surveillance:</span>
+                            <span class="status-value" id="surveillance-status">ENABLED</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Reality Anchor:</span>
+                            <span class="status-value" id="reality-status">STABLE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // DevTools Detection and Nuke System (copied from index.html)
+        class DevToolsNuke {
+            constructor() {
+                this.devToolsOpen = false;
+                this.nukeTriggered = false;
+                this.initialized = false;
+                this.init();
+            }
+
+            init() {
+                setTimeout(() => {
+                    this.initialized = true;
+                    this.setupDetection();
+                }, 2000);
+            }
+
+            setupDetection() {
+                document.addEventListener('keydown', (e) => {
+                    if (
+                        (e.key === 'F12') ||
+                        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+                        (e.ctrlKey && e.key === 'u') ||
+                        (e.ctrlKey && e.shiftKey && e.key === 'K') ||
+                        (e.key === 'F1' && e.ctrlKey) ||
+                        (e.altKey && e.key === 'F12')
+                    ) {
+                        e.preventDefault();
+                        this.triggerNuke();
+                    }
+                });
+
+                document.addEventListener('contextmenu', (e) => {
+                    if (e.target.tagName === 'A' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        return;
+                    }
+                    e.preventDefault();
+                    this.triggerNuke();
+                });
+
+                this.checkDevTools();
+                this.overrideConsole();
+                this.checkWindowSize();
+            }
+
+            checkDevTools() {
+                const threshold = 200;
+                let initialCheckDone = false;
+                let initialOuterHeight = window.outerHeight;
+                let initialOuterWidth = window.outerWidth;
+                let initialInnerHeight = window.innerHeight;
+                let initialInnerWidth = window.innerWidth;
+
+                setTimeout(() => {
+                    initialCheckDone = true;
+                }, 3000);
+
+                setInterval(() => {
+                    if (!initialCheckDone) return;
+
+                    const currentDiffHeight = window.outerHeight - window.innerHeight;
+                    const currentDiffWidth = window.outerWidth - window.innerWidth;
+
+                    if (currentDiffHeight > threshold || currentDiffWidth > threshold) {
+                        if (!this.devToolsOpen) {
+                            this.devToolsOpen = true;
+                            this.triggerNuke();
+                        }
+                    } else {
+                        this.devToolsOpen = false;
+                    }
+                }, 1000);
+            }
+
+            overrideConsole() {
+                let consoleUsed = false;
+                const originalLog = console.log;
+                console.log = (...args) => {
+                    originalLog.apply(console, args);
+                    if (!consoleUsed) {
+                        consoleUsed = true;
+                        setTimeout(() => {
+                            if (consoleUsed) {
+                                this.triggerNuke();
+                            }
+                        }, 3000);
+                    }
+                };
+            }
+
+            checkWindowSize() {
+                let width = window.innerWidth;
+                let height = window.innerHeight;
+                let resizeCount = 0;
+
+                window.addEventListener('resize', () => {
+                    resizeCount++;
+                    if (resizeCount > 3 && (Math.abs(window.innerWidth - width) > 300 || Math.abs(window.innerHeight - height) > 300)) {
+                        this.triggerNuke();
+                    }
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+
+                    setTimeout(() => {
+                        resizeCount = 0;
+                    }, 2000);
+                });
+            }
+
+            triggerNuke() {
+                if (this.nukeTriggered) return;
+                this.nukeTriggered = true;
+
+                document.body.innerHTML = '';
+
+                const nukeContainer = document.createElement('div');
+                nukeContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: black;
+                    z-index: 999999;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                `;
+
+                const gif = document.createElement('img');
+                gif.src = '../assets/eyespy.gif';
+                gif.style.cssText = `
+                    width: 100vw;
+                    height: 100vh;
+                    object-fit: cover;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 1;
+                    filter: brightness(1.2) contrast(1.5);
+                `;
+
+                const text = document.createElement('div');
+                text.textContent = 'SYSTEM BREACH DETECTED';
+                text.style.cssText = `
+                    font-family: 'Orbitron', monospace;
+                    font-size: 3rem;
+                    font-weight: bold;
+                    color: #ff0066;
+                    text-shadow: 0 0 20px #ff0066, 0 0 40px #ff0066;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    z-index: 2;
+                    text-align: center;
+                    animation: flash 0.5s infinite;
+                `;
+
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes flash {
+                        0% { opacity: 1; }
+                        50% { opacity: 0; }
+                        100% { opacity: 1; }
+                    }
+                `;
+
+                document.head.appendChild(style);
+                nukeContainer.appendChild(gif);
+                nukeContainer.appendChild(text);
+                document.body.appendChild(nukeContainer);
+
+                document.addEventListener('keydown', (e) => e.preventDefault());
+                document.addEventListener('contextmenu', (e) => e.preventDefault());
+                document.addEventListener('click', (e) => e.preventDefault());
+                document.addEventListener('dblclick', (e) => e.preventDefault());
+
+                console.clear();
+            }
+        }
+
+        // Initialize the nuke system
+        document.addEventListener('DOMContentLoaded', () => {
+            new DevToolsNuke();
+        });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => new DevToolsNuke());
+        } else {
+            new DevToolsNuke();
+        }
+
+        // Hacker Terminal functionality
+        class HackerTerminal {
+            constructor() {
+                this.terminalBody = document.getElementById('terminal-body');
+                this.currentInputSpan = document.getElementById('current-input');
+                this.currentInput = '';
+                this.loggedIn = false;
+                this.prompt = 'root@headlessryn login: ';
+                this.commandHistory = [];
+                this.historyIndex = -1;
+                this.easterEggsTriggered = new Set();
+                this.matrixChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+                this.surveillanceActive = false;
+                this.expectingLogout = false;
+                this.surveillanceTimer = null;
+                this.init();
+            }
+
+            init() {
+                this.terminalBody.addEventListener('keydown', (e) => this.handleKeydown(e));
+                this.terminalBody.focus();
+
+                // Start matrix rain effect
+                this.startMatrixRain();
+
+                // Update status indicators
+                this.updateStatuses();
+
+                // Start surveillance check
+                this.startSurveillanceCheck();
+            }
+
+            handleKeydown(e) {
+                if (e.key === 'Enter') {
+                    const command = this.currentInput.trim();
+                    if (command) {
+                        this.executeCommand(command);
+                        this.commandHistory.push(command);
+                        this.historyIndex = this.commandHistory.length;
+                    }
+                } else if (e.key === 'Backspace') {
+                    e.preventDefault();
+                    if (this.currentInput.length > 0) {
+                        this.currentInput = this.currentInput.slice(0, -1);
+                        this.currentInputSpan.textContent = this.currentInput;
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (this.historyIndex > 0) {
+                        this.historyIndex--;
+                        this.currentInput = this.commandHistory[this.historyIndex];
+                        this.currentInputSpan.textContent = this.currentInput;
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (this.historyIndex < this.commandHistory.length - 1) {
+                        this.historyIndex++;
+                        this.currentInput = this.commandHistory[this.historyIndex];
+                        this.currentInputSpan.textContent = this.currentInput;
+                    } else {
+                        this.historyIndex = this.commandHistory.length;
+                        this.currentInput = '';
+                        this.currentInputSpan.textContent = '';
+                    }
+                } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                    this.currentInput += e.key;
+                    this.currentInputSpan.textContent = this.currentInput;
+                }
+            }
+
+            executeCommand(command) {
+                const output = this.terminalBody.querySelector('.terminal-output');
+                const lastP = output.lastElementChild;
+                if (lastP) output.removeChild(lastP);
+
+                if (!this.loggedIn) {
+                    if (command.toLowerCase() === 'collective') {
+                        this.loggedIn = true;
+                        this.prompt = 'root@headlessryn:~# ';
+                        this.addOutput(`${this.prompt}collective`);
+                        this.addOutput('SYSTEM ACCESS GRANTED');
+                        this.addOutput('Neural link established. Access level: ROOT');
+                        this.addOutput('Type \'help\' for available commands');
+                        document.querySelector('.subtitle').textContent = 'System Access: AUTHORIZED - Neural Link Active';
+                    } else {
+                        this.addOutput(`${this.prompt}${command}`);
+                        this.addOutput('ACCESS DENIED - SYSTEM BREACH DETECTED');
+                        this.addOutput('Connection terminated.');
+                    }
+                } else {
+                    const cmd = command.toLowerCase().split(' ')[0];
+                    const args = command.split(' ').slice(1);
+
+                    if (this.surveillanceActive) {
+                        if (cmd === 'clear' && !this.expectingLogout) {
+                            this.expectingLogout = true;
+                            this.addOutput('Clear command acknowledged. Now type \'logout\' to complete protocol.');
+                        } else if (cmd === 'logout' && this.expectingLogout) {
+                            this.cancelSurveillance();
+                        } else {
+                            this.addOutput('INVALID COMMAND - Surveillance protocol active. Type \'clear\' then \'logout\'.');
+                        }
+                    } else {
+                        this.addOutput(`${this.prompt}${command}`);
+
+                        switch (cmd) {
+                            case 'help':
+                                this.showHelp();
+                                break;
+                            case 'ls':
+                                this.listFiles();
+                                break;
+                            case 'cat':
+                                this.catFile(args[0]);
+                                break;
+                            case 'whoami':
+                                this.addOutput('root');
+                                break;
+                            case 'pwd':
+                                this.addOutput('/root/collective/headlessryn');
+                                break;
+                            case 'ps':
+                                this.showProcesses();
+                                break;
+                            case 'neural':
+                                this.neuralCommand(args);
+                                break;
+                            case 'encrypt':
+                                this.encryptCommand(args.join(' '));
+                                break;
+                            case 'decrypt':
+                                this.decryptCommand(args.join(' '));
+                                break;
+                            case 'matrix':
+                                this.matrixCommand();
+                                break;
+                            case 'surveil':
+                                this.surveilCommand();
+                                break;
+                            case 'reality':
+                                this.realityCommand();
+                                break;
+                            case 'konami':
+                                this.konamiCode();
+                                break;
+                            case 'clear':
+                                this.clearTerminal();
+                                break;
+                            case 'conspiracy':
+                                window.open('conspiracy.html', '_blank');
+                                this.addOutput('Accessing conspiracy board...');
+                                break;
+                            case 'vault':
+                                window.open('vault.html', '_blank');
+                                this.addOutput('Accessing encrypted vault...');
+                                break;
+                            default:
+                                this.addOutput(`Command not found: ${cmd}. Type 'help' for available commands.`);
+                        }
+                    }
+                }
+
+                this.addOutput(`${this.prompt}<span id="current-input"></span><span class="cursor">_</span>`);
+                this.currentInputSpan = document.getElementById('current-input');
+                this.currentInput = '';
+            }
+
+            showHelp() {
+                const helpText = `
+Available commands:
+  help          - Show this help message
+  ls            - List files in current directory
+  cat <file>    - Display file contents
+  whoami        - Show current user
+  pwd           - Show current directory
+  ps            - Show running processes
+  neural <cmd>  - Neural interface commands
+  encrypt <msg> - Encrypt a message
+  decrypt <msg> - Decrypt a message
+  matrix        - Toggle matrix mode
+  surveil       - Activate surveillance
+  reality       - Check reality status
+  konami        - ??? (try it)
+  clear         - Clear terminal
+
+Note: Some files may contain... interesting information.
+                `;
+                this.addOutput(helpText);
+            }
+
+            listFiles() {
+                const files = [
+                    'drwxr-xr-x  2 root root 4096 conspiracy.db',
+                    'drwxr-xr-x  2 root root 4096 lyrics.vault',
+                    '-rw-r--r--  1 root root 1024 neural_link.log',
+                    '-rw-r--r--  1 root root 2048 reality_anchor.exe',
+                    '-rw-r--r--  1 root root  512 surveillance.pid',
+                    'drwxr-xr-x  2 root root 4096 artists/',
+                    'drwxr-xr-x  2 root root 4096 timelines/'
+                ];
+                this.addOutput(files.join('\n'));
+            }
+
+            catFile(filename) {
+                const clues = {
+                    'neural_link.log': 'Neural link established. The vault whispers secrets to those who listen. Access code: "decrypt the shadows"',
+                    'surveillance.pid': 'Surveillance active. The board watches all who seek the truth. Enter the conspiracy through the looking glass.',
+                    'reality_anchor.exe': 'Reality anchor stable. Multiple paths exist. Some lead to hidden knowledge, others to madness.',
+                    'conspiracy.db': 'Database locked. Encrypted theories await the curious mind. The key lies in the collective consciousness.',
+                    'lyrics.vault': 'Vault secured. Encrypted melodies hide within. Only the initiated may hear the true song.'
+                };
+
+                if (clues[filename]) {
+                    this.addOutput(clues[filename]);
+                } else {
+                    this.addOutput(`cat: ${filename}: Permission denied. Access level insufficient.`);
+                }
+            }
+
+            showProcesses() {
+                const processes = [
+                    '  PID TTY          TIME CMD',
+                    ' 1337 pts/0    00:00:00 surveillance',
+                    ' 1338 pts/0    00:00:00 neural_link',
+                    ' 1339 pts/0    00:00:00 reality_anchor',
+                    ' 1340 pts/0    00:00:00 hive_mind',
+                    ' 1341 pts/0    00:00:00 encryption_daemon'
+                ];
+                this.addOutput(processes.join('\n'));
+            }
+
+            neuralCommand(args) {
+                if (args[0] === 'link') {
+                    this.addOutput('Neural link established. The collective consciousness reveals hidden paths. Navigate to vault.html to access encrypted knowledge.');
+                    this.updateStatus('neural-status', 'ENHANCED');
+                } else if (args[0] === 'disconnect') {
+                    this.addOutput('Neural link severed. The conspiracy board awaits those who dare to look. Find conspiracy.html in the shadows.');
+                    this.updateStatus('neural-status', 'ACTIVE');
+                } else {
+                    this.addOutput('Neural interface active. The hive mind knows many secrets. Try "neural link" or "neural disconnect" for guidance.');
+                }
+            }
+
+            encryptCommand(message) {
+                if (!message) {
+                    this.addOutput('Usage: encrypt <message>');
+                    return;
+                }
+                let encrypted = '';
+                for (let char of message) {
+                    if (char === ' ') {
+                        encrypted += ' ';
+                    } else {
+                        encrypted += this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
+                    }
+                }
+                this.addOutput(`Encrypted: ${encrypted}`);
+            }
+
+            decryptCommand(message) {
+                if (!message) {
+                    this.addOutput('Usage: decrypt <message>');
+                    return;
+                }
+                // Simple "decryption" - just reverse the string
+                const decrypted = message.split('').reverse().join('');
+                this.addOutput(`Decrypted: ${decrypted}`);
+            }
+
+            matrixCommand() {
+                this.addOutput('Matrix mode activated. Follow the white rabbit...');
+                // Add matrix overlay effect
+                const overlay = document.createElement('div');
+                overlay.className = 'matrix-overlay';
+                overlay.innerHTML = '<div class="matrix-text">01101000 01100101 01100001 01100100 01101100 01100101 01110011 01110011 01110010 01111001 01101110</div>';
+                document.body.appendChild(overlay);
+
+                setTimeout(() => {
+                    document.body.removeChild(overlay);
+                }, 3000);
+            }
+
+            surveilCommand() {
+                this.addOutput('Surveillance activated. All actions monitored.');
+                this.updateStatus('surveillance-status', 'MAXIMUM');
+                // Trigger surveillance effect
+                document.body.classList.add('surveilled');
+                setTimeout(() => {
+                    document.body.classList.remove('surveilled');
+                    this.updateStatus('surveillance-status', 'ENABLED');
+                }, 5000);
+            }
+
+            realityCommand() {
+                const realities = [
+                    'Reality anchor: STABLE',
+                    'Timeline drift: MINIMAL',
+                    'Parallel instances: 47 active',
+                    'Quantum coherence: 99.7%',
+                    'Consciousness merge: PENDING'
+                ];
+                this.addOutput(realities.join('\n'));
+            }
+
+            konamiCode() {
+                if (!this.easterEggsTriggered.has('konami')) {
+                    this.easterEggsTriggered.add('konami');
+                    this.addOutput('↑↑↓↓←→←→BA - KONAMI CODE ACCEPTED!');
+                    this.addOutput('Cheat mode activated. Unlimited power granted.');
+                    this.addOutput('Achievement unlocked: 1337 H4X0R');
+                    // Trigger special effect
+                    document.body.classList.add('konami-mode');
+                    setTimeout(() => {
+                        document.body.classList.remove('konami-mode');
+                    }, 10000);
+                } else {
+                    this.addOutput('Konami code already activated.');
+                }
+            }
+
+            clearTerminal() {
+                const output = this.terminalBody.querySelector('.terminal-output');
+                output.innerHTML = `<p><span class="terminal-prompt">${this.prompt.replace(' ', '')}</span> <span id="current-input"></span><span class="cursor">_</span></p>`;
+                this.currentInputSpan = document.getElementById('current-input');
+                this.currentInput = '';
+            }
+
+            addOutput(text) {
+                const output = this.terminalBody.querySelector('.terminal-output');
+                const lines = text.split('\n');
+                lines.forEach(line => {
+                    const p = document.createElement('p');
+                    p.innerHTML = line;
+                    output.appendChild(p);
+                });
+                this.terminalBody.scrollTop = this.terminalBody.scrollHeight;
+            }
+
+            updateStatuses() {
+                setInterval(() => {
+                    const statuses = ['neural-status', 'encryption-status', 'surveillance-status', 'reality-status'];
+                    statuses.forEach(status => {
+                        const element = document.getElementById(status);
+                        if (element && Math.random() < 0.1) { // 10% chance to change
+                            const values = {
+                                'neural-status': ['ACTIVE', 'ENHANCED', 'OVERLOADED'],
+                                'encryption-status': ['QUANTUM', 'MILITARY', 'UNBREAKABLE'],
+                                'surveillance-status': ['ENABLED', 'MAXIMUM', 'TOTAL'],
+                                'reality-status': ['STABLE', 'DRIFTING', 'ANCHORING']
+                            };
+                            const currentValue = element.textContent;
+                            const newValues = values[status].filter(v => v !== currentValue);
+                            element.textContent = newValues[Math.floor(Math.random() * newValues.length)];
+                        }
+                    });
+                }, 5000);
+            }
+
+            updateStatus(statusId, value) {
+                document.getElementById(statusId).textContent = value;
+            }
+
+            startSurveillanceCheck() {
+                setInterval(() => {
+                    if (this.loggedIn && Math.random() < 0.1) { // 1/10 chance every 10 seconds
+                        this.triggerSurveillance();
+                    }
+                }, 10000);
+            }
+
+            triggerSurveillance() {
+                if (this.surveillanceActive) return; // Prevent multiple triggers
+                this.surveillanceActive = true;
+                this.addOutput('SURVEILLANCE PROTOCOL ACTIVATED');
+                this.addOutput('Type \'clear\' then \'logout\' within 10 seconds to avoid system lockdown');
+                this.surveillanceTimer = setTimeout(() => {
+                    if (this.surveillanceActive) {
+                        this.triggerSystemLockdown();
+                    }
+                }, 10000);
+            }
+
+            cancelSurveillance() {
+                this.surveillanceActive = false;
+                this.expectingLogout = false;
+                clearTimeout(this.surveillanceTimer);
+                this.addOutput('Surveillance protocol deactivated.');
+            }
+
+            triggerSystemLockdown() {
+                this.surveillanceActive = false;
+                this.expectingLogout = false;
+                clearTimeout(this.surveillanceTimer);
+
+                // Nuke the page
+                document.body.innerHTML = '';
+
+                const nukeContainer = document.createElement('div');
+                nukeContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: black;
+                    z-index: 999999;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                `;
+
+                const gif = document.createElement('img');
+                gif.src = '../assets/eyespy.gif';
+                gif.style.cssText = `
+                    width: 100vw;
+                    height: 100vh;
+                    object-fit: cover;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 1;
+                    filter: brightness(1.2) contrast(1.5);
+                `;
+
+                const text = document.createElement('div');
+                text.textContent = 'SYSTEM LOCKDOWN INITIATED';
+                text.style.cssText = `
+                    font-family: 'Orbitron', monospace;
+                    font-size: 3rem;
+                    font-weight: bold;
+                    color: #ff0066;
+                    text-shadow: 0 0 20px #ff0066, 0 0 40px #ff0066;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    z-index: 2;
+                    text-align: center;
+                    animation: flash 0.5s infinite;
+                `;
+
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes flash {
+                        0% { opacity: 1; }
+                        50% { opacity: 0; }
+                        100% { opacity: 1; }
+                    }
+                `;
+
+                document.head.appendChild(style);
+                nukeContainer.appendChild(gif);
+                nukeContainer.appendChild(text);
+                document.body.appendChild(nukeContainer);
+
+                document.addEventListener('keydown', (e) => e.preventDefault());
+                document.addEventListener('contextmenu', (e) => e.preventDefault());
+                document.addEventListener('click', (e) => e.preventDefault());
+                document.addEventListener('dblclick', (e) => e.preventDefault());
+
+                console.clear();
+            }
+
+            startMatrixRain() {
+                const canvas = document.createElement('canvas');
+                canvas.className = 'matrix-canvas';
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                document.body.appendChild(canvas);
+
+                const ctx = canvas.getContext('2d');
+                const columns = Math.floor(canvas.width / 20);
+                const drops = new Array(columns).fill(1);
+                const matrixChars = this.matrixChars;
+
+                const draw = () => {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    ctx.fillStyle = '#00ff00';
+                    ctx.font = '15px JetBrains Mono';
+
+                    for (let i = 0; i < drops.length; i++) {
+                        const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                        ctx.fillText(text, i * 20, drops[i] * 20);
+
+                        if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        drops[i]++;
+                    }
+                };
+
+                setInterval(draw, 35);
+
+                // Hide canvas initially, show on matrix command
+                canvas.style.display = 'none';
+                this.matrixCanvas = canvas;
+            }
+        }
+
+        // Initialize terminal
+        document.addEventListener('DOMContentLoaded', () => {
+            new HackerTerminal();
+        });
+    </script>
+
+    <style>
+        .terminal-header {
+            text-align: center;
+            margin: 100px 0 50px;
+        }
+
+        .terminal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .terminal-window {
+            background: #000;
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .terminal-header-bar {
+            background: #333;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-button.close { background: #ff5f57; }
+        .terminal-button.minimize { background: #ffbd2e; }
+        .terminal-button.maximize { background: #28ca42; }
+
+        .terminal-title {
+            color: #ccc;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .terminal-body {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #000;
+            color: #00ff00;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .terminal-prompt {
+            color: #00ff00;
+        }
+
+        .cursor {
+            animation: blink 1s infinite;
+        }
+
+
+
+        .terminal-info {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-label {
+            color: var(--pastel-blue);
+            font-size: 0.9rem;
+        }
+
+        .status-value {
+            color: var(--neon-green);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .matrix-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: matrix-fade 3s ease-in-out;
+        }
+
+        .matrix-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            color: #00ff00;
+            text-shadow: 0 0 20px #00ff00;
+            animation: matrix-glow 0.5s ease-in-out infinite alternate;
+        }
+
+        .surveilled {
+            animation: surveillance-scan 0.2s ease-in-out infinite;
+        }
+
+        .konami-mode {
+            animation: konami-rainbow 0.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        @keyframes matrix-fade {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes matrix-glow {
+            0% { text-shadow: 0 0 20px #00ff00; }
+            100% { text-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00; }
+        }
+
+        @keyframes surveillance-scan {
+            0% { box-shadow: inset 0 0 50px rgba(255, 0, 0, 0.3); }
+            50% { box-shadow: inset 0 0 100px rgba(255, 0, 0, 0.6); }
+            100% { box-shadow: inset 0 0 50px rgba(255, 0, 0, 0.3); }
+        }
+
+        @keyframes konami-rainbow {
+            0% { filter: hue-rotate(0deg); }
+            25% { filter: hue-rotate(90deg); }
+            50% { filter: hue-rotate(180deg); }
+            75% { filter: hue-rotate(270deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .terminal-window {
+                max-width: 100%;
+                margin: 0 10px;
+            }
+
+            .terminal-body {
+                height: 300px;
+                font-size: 0.8rem;
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

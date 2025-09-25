@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Lyrics Vault - HeadlessRyn</title>
+    <meta name="description" content="Encrypted lyrics vault. Access restricted.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../icon.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../headless.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>HeadlessRyn's Vault</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="conspiracy.html">Conspiracy</a></li>
+                <li><a href="terminal.html">Terminal</a></li>
+                <li><a href="gang.html">Collective</a></li>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="vault-header">
+            <h1 class="title">ENCRYPTED LYRICS VAULT</h1>
+            <p class="subtitle">Access Level: RESTRICTED</p>
+        </section>
+
+        <section class="vault-content">
+            <div class="aero-panel">
+                <h2>Decryption Status</h2>
+                <div class="decryption-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p id="progress-text">Initializing decryption sequence...</p>
+                </div>
+            </div>
+
+            <div class="lyrics-container">
+                <div class="lyrics-panel" id="lyrics-panel">
+                    <div class="encrypted-text" id="encrypted-text">
+                        <p>█▀▀█ █░░ █▀▀█ █░░█ █▀▀ █▀▀█ █▀▀█ █▀▀█</p>
+                        <p>█░░█ █░░ █▄▄█ █▄▄█ █░░ █░░█ █▄▄▀ █▄▄█</p>
+                        <p>█▀▀▀ ▀▀▀ ▀░░▀ ▄▄▄█ ▀▀▀ ▀▀▀▀ ▀░▀▀ ▀░░▀</p>
+                        <p>░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</p>
+                        <p>█▀▀█ █░░█ █▀▀█ █▀▀█ █▀▀ █░░█ █▀▀█ █▀▀█</p>
+                        <p>█▄▄█ █▄▄█ █░░█ █▄▄█ █░░ █▀▀█ █▄▄█ █▄▄█</p>
+                        <p>▀░░▀ ▄▄▄█ █▀▀▀ ▀░░▀ ▀▀▀ ▀░░▀ ▀░░▀ ▀░░▀</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vault-controls">
+                <button class="cta-button" id="decrypt-btn">INITIATE DECRYPTION</button>
+                <button class="cta-button secondary" id="lock-btn">LOCK VAULT</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // DevTools Detection and Nuke System (copied from index.html)
+        class DevToolsNuke {
+            constructor() {
+                this.devToolsOpen = false;
+                this.nukeTriggered = false;
+                this.initialized = false;
+                this.init();
+            }
+
+            init() {
+                setTimeout(() => {
+                    this.initialized = true;
+                    this.setupDetection();
+                }, 2000);
+            }
+
+            setupDetection() {
+                document.addEventListener('keydown', (e) => {
+                    if (
+                        (e.key === 'F12') ||
+                        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+                        (e.ctrlKey && e.key === 'u') ||
+                        (e.ctrlKey && e.shiftKey && e.key === 'K') ||
+                        (e.key === 'F1' && e.ctrlKey) ||
+                        (e.altKey && e.key === 'F12')
+                    ) {
+                        e.preventDefault();
+                        this.triggerNuke();
+                    }
+                });
+
+                document.addEventListener('contextmenu', (e) => {
+                    if (e.target.tagName === 'A' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        return;
+                    }
+                    e.preventDefault();
+                    this.triggerNuke();
+                });
+
+                this.checkDevTools();
+                this.overrideConsole();
+                this.checkWindowSize();
+            }
+
+            checkDevTools() {
+                const threshold = 200;
+                let initialCheckDone = false;
+                let initialOuterHeight = window.outerHeight;
+                let initialOuterWidth = window.outerWidth;
+                let initialInnerHeight = window.innerHeight;
+                let initialInnerWidth = window.innerWidth;
+
+                setTimeout(() => {
+                    initialCheckDone = true;
+                }, 3000);
+
+                setInterval(() => {
+                    if (!initialCheckDone) return;
+
+                    const currentDiffHeight = window.outerHeight - window.innerHeight;
+                    const currentDiffWidth = window.outerWidth - window.innerWidth;
+
+                    if (currentDiffHeight > threshold || currentDiffWidth > threshold) {
+                        if (!this.devToolsOpen) {
+                            this.devToolsOpen = true;
+                            this.triggerNuke();
+                        }
+                    } else {
+                        this.devToolsOpen = false;
+                    }
+                }, 1000);
+            }
+
+            overrideConsole() {
+                let consoleUsed = false;
+                const originalLog = console.log;
+                console.log = (...args) => {
+                    originalLog.apply(console, args);
+                    if (!consoleUsed) {
+                        consoleUsed = true;
+                        setTimeout(() => {
+                            if (consoleUsed) {
+                                this.triggerNuke();
+                            }
+                        }, 3000);
+                    }
+                };
+            }
+
+            checkWindowSize() {
+                let width = window.innerWidth;
+                let height = window.innerHeight;
+                let resizeCount = 0;
+
+                window.addEventListener('resize', () => {
+                    resizeCount++;
+                    if (resizeCount > 3 && (Math.abs(window.innerWidth - width) > 300 || Math.abs(window.innerHeight - height) > 300)) {
+                        this.triggerNuke();
+                    }
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+
+                    setTimeout(() => {
+                        resizeCount = 0;
+                    }, 2000);
+                });
+            }
+
+            triggerNuke() {
+                if (this.nukeTriggered) return;
+                this.nukeTriggered = true;
+
+                document.body.innerHTML = '';
+
+                const nukeContainer = document.createElement('div');
+                nukeContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: black;
+                    z-index: 999999;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                `;
+
+                const gif = document.createElement('img');
+                gif.src = '../assets/eyespy.gif';
+                gif.style.cssText = `
+                    width: 100vw;
+                    height: 100vh;
+                    object-fit: cover;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 1;
+                    filter: brightness(1.2) contrast(1.5);
+                `;
+
+                const text = document.createElement('div');
+                text.textContent = 'VAULT BREACHED';
+                text.style.cssText = `
+                    font-family: 'Orbitron', monospace;
+                    font-size: 3rem;
+                    font-weight: bold;
+                    color: #ff0066;
+                    text-shadow: 0 0 20px #ff0066, 0 0 40px #ff0066;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    z-index: 2;
+                    text-align: center;
+                    animation: flash 0.5s infinite;
+                `;
+
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes flash {
+                        0% { opacity: 1; }
+                        50% { opacity: 0; }
+                        100% { opacity: 1; }
+                    }
+                `;
+
+                document.head.appendChild(style);
+                nukeContainer.appendChild(gif);
+                nukeContainer.appendChild(text);
+                document.body.appendChild(nukeContainer);
+
+                document.addEventListener('keydown', (e) => e.preventDefault());
+                document.addEventListener('contextmenu', (e) => e.preventDefault());
+                document.addEventListener('click', (e) => e.preventDefault());
+                document.addEventListener('dblclick', (e) => e.preventDefault());
+
+                console.clear();
+            }
+        }
+
+        // Initialize the nuke system
+        document.addEventListener('DOMContentLoaded', () => {
+            new DevToolsNuke();
+        });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => new DevToolsNuke());
+        } else {
+            new DevToolsNuke();
+        }
+
+        // Vault decryption functionality
+        class LyricsVault {
+            constructor() {
+                this.isDecrypting = false;
+                this.decryptionProgress = 0;
+                this.originalLyrics = [
+                    "ill add a list of lyrics here later",
+                    "for now enjoy this placeholder text",
+                    "the quick brown fox jumps over the lazy dog or sum",
+                    "there'll be a lot of unreleased lyrics that are also scrapped entirely",
+                ];
+                this.encryptedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?`~üéâäàåçêëèïîìæôöòûùÿýžźñçćčđđęęłłńńőőřřśśşşššťťźźżżžž⛧☣︎𖤝𖤐⸸⏾';
+                this.init();
+            }
+
+            init() {
+                this.progressFill = document.getElementById('progress-fill');
+                this.progressText = document.getElementById('progress-text');
+                this.encryptedText = document.getElementById('encrypted-text');
+                this.decryptBtn = document.getElementById('decrypt-btn');
+                this.lockBtn = document.getElementById('lock-btn');
+
+                this.decryptBtn.addEventListener('click', () => this.startDecryption());
+                this.lockBtn.addEventListener('click', () => this.lockVault());
+
+                this.displayEncrypted();
+            }
+
+            displayEncrypted() {
+                this.encryptedText.innerHTML = this.originalLyrics.map(line => {
+                    if (line === '') return '<br>';
+                    return '<p>' + line.split('').map(char => {
+                        if (char === ' ') return ' ';
+                        return this.encryptedChars[Math.floor(Math.random() * this.encryptedChars.length)];
+                    }).join('') + '</p>';
+                }).join('');
+            }
+
+            startDecryption() {
+                if (this.isDecrypting) return;
+                this.isDecrypting = true;
+                this.decryptionProgress = 0;
+                this.decryptBtn.disabled = true;
+                this.decryptBtn.textContent = 'DECRYPTING...';
+
+                this.decryptionInterval = setInterval(() => {
+                    this.decryptionProgress += Math.random() * 5 + 1;
+                    if (this.decryptionProgress >= 100) {
+                        this.decryptionProgress = 100;
+                        this.completeDecryption();
+                        clearInterval(this.decryptionInterval);
+                    }
+                    this.updateProgress();
+                }, 100);
+            }
+
+            updateProgress() {
+                this.progressFill.style.width = this.decryptionProgress + '%';
+                this.progressText.textContent = `Decryption: ${Math.floor(this.decryptionProgress)}% complete`;
+
+                // Update displayed text based on progress
+                this.updateDisplayedText();
+            }
+
+            updateDisplayedText() {
+                const progress = this.decryptionProgress / 100;
+                this.encryptedText.innerHTML = this.originalLyrics.map((line, lineIndex) => {
+                    if (line === '') return '<br>';
+                    return '<p>' + line.split('').map((char, charIndex) => {
+                        const charProgress = (lineIndex * line.length + charIndex) / (this.originalLyrics.length * Math.max(...this.originalLyrics.map(l => l.length)));
+                        if (charProgress <= progress) {
+                            return char;
+                        } else {
+                            return this.encryptedChars[Math.floor(Math.random() * this.encryptedChars.length)];
+                        }
+                    }).join('') + '</p>';
+                }).join('');
+            }
+
+            completeDecryption() {
+                this.progressText.textContent = 'Decryption complete. Vault unlocked.';
+                this.decryptBtn.disabled = false;
+                this.decryptBtn.textContent = 'RE-DECRYPT';
+                this.isDecrypting = false;
+
+                // Add glitch effect to completed text
+                this.encryptedText.classList.add('decrypted');
+            }
+
+            lockVault() {
+                this.displayEncrypted();
+                this.progressFill.style.width = '0%';
+                this.progressText.textContent = 'Vault locked. Click decrypt to unlock.';
+                this.decryptBtn.disabled = false;
+                this.decryptBtn.textContent = 'INITIATE DECRYPTION';
+                this.encryptedText.classList.remove('decrypted');
+            }
+        }
+
+        // Initialize vault
+        document.addEventListener('DOMContentLoaded', () => {
+            new LyricsVault();
+        });
+    </script>
+
+    <style>
+        .vault-header {
+            text-align: center;
+            margin: 100px 0 50px;
+        }
+
+        .vault-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .decryption-progress {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 300px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #cc0066, #0099cc);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .lyrics-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .lyrics-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .encrypted-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #8899cc;
+            white-space: pre-wrap;
+        }
+
+        .encrypted-text.decrypted {
+            color: #e0e0e0;
+            animation: decrypted-glow 2s ease-in-out;
+        }
+
+        .vault-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        @keyframes decrypted-glow {
+            0% { text-shadow: none; }
+            50% { text-shadow: 0 0 10px #cc0066, 0 0 20px #cc0066; }
+            100% { text-shadow: 0 0 5px #cc0066; }
+        }
+
+        @media (max-width: 768px) {
+            .progress-bar {
+                width: 250px;
+            }
+
+            .lyrics-panel {
+                padding: 20px;
+            }
+
+            .encrypted-text {
+                font-size: 1rem;
+            }
+
+            .vault-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</body>
+</html>
